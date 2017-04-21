@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, Image } from 'react-native';
 import axios from 'axios';
 import { Button, Card, CardSection, Input } from './common';
 
@@ -9,26 +9,24 @@ class LoginForm extends Component {
     password: '',
     username: '',
     passwordConfirm: '',
-    errors: []
+    errors: [],
+    image_url: require('./../../img/loading_watermelon.gif')
    };
 
    onButtonPress() {
-     const { email, password, username, passwordConfirm } = this.state;
-     axios.post('http://192.168.1.159:5000/register',
-     {
-       username: username,
-       email: email,
-       password: password,
-       passwordConfirm: passwordConfirm
-     })
+    // const { email, password, username, passwordConfirm } = this.state;
+    this.setState({ image_url: require('./../../img/loading_watermelon.gif') });
+     axios.get('http://192.168.1.159:5000/get_random_plant')
      .then(response => {
        console.log('success!', response);
+       console.log(response.data.image_url);
+       this.setState({ image_url: { uri: response.data.image_url } });
      })
      .catch(error => {
        console.log('error:', error.response.data);
        this.setState({ errors: error.response.data.errors });
      });
-   } //end of onButtonPress
+   } // end of onButtonPress
 
    renderErrors() {
      return this.state.errors.map(error =>
@@ -80,6 +78,16 @@ class LoginForm extends Component {
           <Button onPress={this.onButtonPress.bind(this)}>
             Log in
           </Button>
+        </CardSection>
+        <CardSection>
+          <Image
+            style={{
+              height: 300,
+              flex: 1,
+              width: null
+            }}
+            source={this.state.image_url}
+          />
         </CardSection>
       </Card>
     );
