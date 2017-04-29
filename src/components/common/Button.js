@@ -1,15 +1,18 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 const Button = ({ onPress, children }) => {
   const {
     buttonStyle,
-    textStyle
+    textStyle,
+    wrapperStyle
    } = styles;
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress}>
-      <Text style={textStyle}>{children}</Text>
-    </TouchableOpacity>
+    <View style={wrapperStyle}>
+      <TouchableOpacity style={buttonStyle} onPress={onPress}>
+        <Text style={textStyle}>{children}</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 const styles = {
@@ -30,6 +33,10 @@ const styles = {
     borderColor: '#007aff',
     marginLeft: 5,
     marginRight: 5
+  },
+  wrapperStyle: {
+    flexDirection: 'row',
+    flex: 1
   }
 };
 
